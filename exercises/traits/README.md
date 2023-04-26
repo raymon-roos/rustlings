@@ -12,7 +12,7 @@ Some additional common Rust traits include:
 - `Display` (which allows formatted display via `{}`)
 - `Debug` (which allows formatted display via `{:?}`)
 
-Because traits indicate shared behavior between data types, they are useful when writing generics.
+Because traits indicate shared behaviour between data types, they are useful when writing generics.
 
 ## Further information
 
