@@ -13,10 +13,16 @@
 //
 // No hints this time ;)
 
-// I AM NOT DONE
+use std::u16;
 
 // Put your function here!
-// fn calculate_price_of_apples {
+fn calculate_price_of_apples(apples_count: u16) -> u16 {
+    if apples_count > 40 {
+        return apples_count;
+    }
+
+    apples_count * 2
+}
 
 // Don't modify this function!
 #[test]
