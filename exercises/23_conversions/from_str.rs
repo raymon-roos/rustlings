@@ -21,17 +21,11 @@ struct Person {
 // We will use this error type for the `FromStr` implementation.
 #[derive(Debug, PartialEq)]
 enum ParsePersonError {
-    // Empty input string
-    Empty,
-    // Incorrect number of fields
-    BadLen,
-    // Empty name field
-    NoName,
-    // Wrapped error from parse::<usize>()
-    ParseInt(ParseIntError),
+    Empty,                   // Empty input string
+    BadLen,                  // Incorrect number of fields
+    NoName,                  // Empty name field
+    ParseInt(ParseIntError), // Wrapped error from parse::<usize>()
 }
-
-// I AM NOT DONE
 
 // Steps:
 // 1. If the length of the provided string is 0, an error should be returned
@@ -52,6 +46,18 @@ enum ParsePersonError {
 impl FromStr for Person {
     type Err = ParsePersonError;
     fn from_str(s: &str) -> Result<Person, Self::Err> {
+        let parts: Vec<&str> = s.splitn(3, ',').collect();
+
+        match parts[..] {
+            _ if s.is_empty() => return Err(ParsePersonError::Empty), // Input is an empty string
+            [name, ..] if name.is_empty() => return Err(ParsePersonError::NoName), // Input not empty, but name is
+            // Neither name and age empty, though parsing age might fail
+            [name, age] => Ok(Person {
+                name: name.to_owned(),
+                age: age.parse().map_err(ParsePersonError::ParseInt)?,
+            }),
+            [..] => return Err(ParsePersonError::BadLen), // Wrong number of items in input
+        }
     }
 }
 
